@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <h1>Quote Stock Index</h1>
+    <br>
+    <form action="/quote" method="post">
+    <input type="text" name="symbol" autofocus placeholder="Stock Index" type="text"><br>
+    <button type="submit">Submit</button>
+
+
+    </form>
+
+{% endblock %}
