@@ -20,7 +20,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///finance.db")
+db = SQL("sqlite:///scorpio.db")
 
 
 @app.after_request
@@ -35,20 +35,8 @@ def after_request(response):
 @app.route("/")
 @login_required
 def index():
-    stocks = db.execute("SELECT stock_id, stock_q FROM stonks WHERE user_id = ?", session["user_id"])
-    cash = db.execute("SELECT cash FROM users WHERE id=?",session["user_id"])[0]["cash"]
-
-    stock_info = [{
-        "name": stock["stock_id"],
-        "symbol": stock["stock_id"],
-        "shares": stock["stock_q"],
-        "price": round(lookup(stock["stock_id"])["price"], 2),
-        "total": round(stock["stock_q"] * lookup(stock["stock_id"])["price"], 2)}
-            for stock in stocks]
-
-    gtotal = cash + sum(item['total'] for item in stock_info)
-
-    return render_template("index.html", stock_info=stock_info, cash=cash, gtotal=gtotal)
+  
+    return render_template("index.html")
 
 
 
@@ -62,42 +50,13 @@ def buy():
          return apology("must provide stock symbols", 400)
         if not request.form.get("shares"):
             return apology("must provide amount to be purchased", 400)
-        stock_index = request.form.get("symbol")
-        quantity = int(request.form.get("shares"))
-        cash = db.execute("SELECT cash FROM users WHERE id=?",session["user_id"])[0]["cash"]
-        quoted = lookup(stock_index)
-        if quoted is None:
-            return apology("invalid symbol",400)
-        price = quoted["price"]
-        show = usd(price)
-        name = quoted["name"]
-        symb = quoted["symbol"]
-        total = price*quantity
-        if total > cash:
-            return apology("You have not enough money to complete ", 400)
-        after = round(cash - total, 2)
-        now = datetime.datetime.now(pytz.timezone("US/Eastern"))
-
-        #check if user already has stock that needs to be updated or we need to insert new .
-        check = db.execute("SELECT * FROM stonks WHERE user_id=? AND stock_id=?",session["user_id"],symb)
-        if len(check) == 0:
-            db.execute("INSERT INTO stonks (user_id, stock_id, stock_q) VALUES (?,?,?)", session["user_id"],symb,quantity)
-        if len(check) != 0:
-             old = db.execute("SELECT stock_q FROM stonks WHERE user_id = ? AND stock_id = ?", session["user_id"], symb)
-             new =  int(old[0]["stock_q"] + quantity)
-             db.execute("UPDATE stonks SET stock_q = ? WHERE user_id=? AND stock_id = ?",new, session["user_id"],symb)
-
-
-        db.execute("INSERT INTO transactions (user_id,stock_id,stock_price,stock_value,type,time,shares) VALUES(?,?,?,?,'buy',?,?)", session["user_id"],name ,price, total,now,quantity)
-        db.execute("UPDATE users SET cash = ? WHERE id = ?", after, session["user_id"])
-
+       
         return redirect("/")
 
 @app.route("/history")
 @login_required
 def history():
-    transactions = db.execute("SELECT * FROM transactions ")
-
+   
     return render_template("history.html", transactions=transactions)
 
 
@@ -127,7 +86,7 @@ def login():
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash_pass"], request.form.get("password")):
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
@@ -163,8 +122,6 @@ def quote():
         if not request.form.get("symbol"):
             return apology("Must provide stock index eg. TSLA for Tesla", 400)
 
-        q = request.form.get("symbol")
-        quoted = lookup(q)
         if quote is None:
             return apology("invalid symbol",400)
         return render_template("quoted.html", quoted=quoted)
@@ -192,7 +149,7 @@ def register():
             return apology("Confirm doesnt match Password", 400)
         hashed_password = generate_password_hash(password)
         length = db.execute("SELECT COUNT(*) FROM users")
-        db.execute("INSERT INTO users(username,hash,cash) VALUES (?,?,10000)", name, hashed_password)
+        db.execute("INSERT INTO users(username,hash_pass) VALUES (?,?)", name, hashed_password)
 
         return redirect("/")
 
@@ -214,39 +171,7 @@ def register():
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
-    if request.method == "GET":
-        stocks = db.execute("SELECT stock_id FROM stonks WHERE user_id=?", session["user_id"])
-        return render_template("sell.html", stocks=stocks)
-
-
-    if request.method == "POST":
-        if not request.form.get("symbol"):
-         return apology("must provide stock symbols", 400)
-        if not request.form.get("shares"):
-            return apology("must provide amount to be purchased", 400)
-        data = db.execute("SELECT stock_id,stock_q FROM stonks WHERE user_id=?", session["user_id"])
-
-        symbol = request.form.get("symbol")
-        quantity = int(request.form.get("shares"))
-
-        quote = lookup(symbol)["price"]
-
-        cash = db.execute("SELECT cash FROM users WHERE id=?",session["user_id"])[0]["cash"]
-        shares = db.execute("SELECT stock_q FROM stonks WHERE user_id=? AND stock_id=?",session["user_id"],symbol)[0]["stock_q"]
-
-        new_cash = quote*shares + cash
-        db.execute("UPDATE users SET cash = ? WHERE id =?",new_cash, session["user_id"])
-        new_shares = shares-quantity
-        now = datetime.datetime.now(pytz.timezone("US/Eastern"))
-        if new_shares > 0:
-            db.execute("UPDATE stonks SET stock_q = ? WHERE user_id = ? AND stock_id = ?",new_shares ,session["user_id"] ,symbol )
-            db.execute("INSERT INTO transactions (user_id,stock_id,stock_price,stock_value,type,time,shares) VALUES(?,?,?,?,'sell',?,?)", session["user_id"],symbol ,quote,quote*shares,now,shares)
-        if new_shares == 0:
-            db.execute("UPDATE stonks SET stock_q = 0 WHERE user_id = ? AND stock_id = ?", session["user_id"],symbol)
-            db.execute("INSERT INTO transactions (user_id,stock_id,stock_price,stock_value,type,time) VALUES(?,?,?,?,'sell',?,?)", session["user_id"],symbol ,quote,quote*shares,now,quantity)
-            db.execute("DELETE FROM stonks WHERE stock_id = ? AND user_id = ?",symbol,session["user_id"])
-        if new_shares < 0:
-            return apology("Not enough shares",400)
+   
 
 
         return redirect("/")
