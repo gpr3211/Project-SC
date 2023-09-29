@@ -5,8 +5,25 @@ YO {% extends "layout.html" %}
     <h1>Generate Workout</h1>
     <br>
     <form action="/quote" method="post">
-    <input type="text" name="primary" autofocus placeholder="Primary" type="text"><br>
-    <input type="text" name="secondary" autofocus placeholder="Secondary" type="text"><br>
+        
+
+    <select name="primary">
+    {% for branch in branches %} 
+            <option value="{{ branch.branch_name }}">{{ branch.branch_name }}</option>
+     {% endfor %}
+        </select>
+    <select name="secondary">
+    {% for branch in branches %} 
+            <option value="{{ branch.branch_name }}">{{ branch.branch_name }}</option>
+     {% endfor %}
+        </select>
+    
+<br>
+    {% for equipment in equipments %}
+    <input type="checkbox" id="{{  equipment.eq_id  }}" name="equipment" value="{{  equipment.eq_type  }}">
+    <label for="{{  equipment.eq_id  }}">{{  equipment.eq_type  }} </label>
+    {% endfor %}
+    
     <button type="submit">Submit</button>
             
 

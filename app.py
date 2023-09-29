@@ -38,6 +38,40 @@ def index():
   
     return render_template("index.html")
 
+@app.route("/quote", methods=["GET", "POST"])
+@login_required
+def quote():
+    if request.method == "GET":
+        branches = db.execute("SELECT branch_name FROM branches")
+        equipments = db.execute("SELECT eq_type FROM equipment")
+        return render_template("quote.html", equipments=equipments,branches=branches )
+
+
+    if request.method == "POST":
+        if not request.form.get("primary"):
+            return apology("Must provide primary muscle group eg. arms or back", 400)
+
+        if quote is None:
+            return apology("must provide inputs",400)
+        primary = request.form.get("primary")
+        secondary = request.form.get("secondary")
+        equipment = request.form.get("equipment")
+        equipments = db.execute("SELECT * FROM equipment")
+        
+        
+       
+        
+        
+        
+        
+        
+        
+        return render_template("quoted.html",)
+
+
+
+
+
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -57,7 +91,7 @@ def buy():
 @login_required
 def history():
    
-    return render_template("history.html", transactions=transactions)
+    return render_template("history.html", )
 
 
 
@@ -111,20 +145,6 @@ def logout():
     return redirect("/")
 
 
-@app.route("/quote", methods=["GET", "POST"])
-@login_required
-def quote():
-    if request.method == "GET":
-        return render_template("quote.html")
-
-
-    if request.method == "POST":
-        if not request.form.get("symbol"):
-            return apology("Must provide stock index eg. TSLA for Tesla", 400)
-
-        if quote is None:
-            return apology("invalid symbol",400)
-        return render_template("quoted.html", quoted=quoted)
 
 
 
