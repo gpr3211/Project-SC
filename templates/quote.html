@@ -2,14 +2,17 @@ YO {% extends "layout.html" %}
 
 {% block main %}
 
-    <h1>Quote Stock Index</h1>
+    <h1>Generate Workout</h1>
     <br>
     <form action="/quote" method="post">
-    <input type="text" name="symbol" autofocus placeholder="Primary" type="text"><br>
-    <input type="text" name="symbol" autofocus placeholder="Secondary" type="text"><br>
+    <input type="text" name="primary" autofocus placeholder="Primary" type="text"><br>
+    <input type="text" name="secondary" autofocus placeholder="Secondary" type="text"><br>
     <button type="submit">Submit</button>
             
 
     </form>
 
 {% endblock %}
+
+
+
