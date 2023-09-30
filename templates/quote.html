@@ -7,20 +7,20 @@ YO {% extends "layout.html" %}
     <form action="/quote" method="post">
         
 
-    <select name="primary">
+    <select name="primary" >
     {% for branch in branches %} 
-            <option value="{{ branch.branch_name }}">{{ branch.branch_name }}</option>
+            <option value="{{ branch.branch_id }}">{{ branch.branch_name }}</option>
      {% endfor %}
         </select>
     <select name="secondary">
     {% for branch in branches %} 
-            <option value="{{ branch.branch_name }}">{{ branch.branch_name }}</option>
+            <option value="{{ branch.branch_id }}">{{ branch.branch_name }}</option>
      {% endfor %}
         </select>
     
 <br>
     {% for equipment in equipments %}
-    <input type="checkbox" id="{{  equipment.eq_id  }}" name="equipment" value="{{  equipment.eq_type  }}">
+    <input type="radio" id="{{  equipment.eq_id  }}" name="equipment" value="{{  equipment.eq_id  }}" >
     <label for="{{  equipment.eq_id  }}">{{  equipment.eq_type  }} </label>
     {% endfor %}
     

@@ -42,21 +42,30 @@ def index():
 @login_required
 def quote():
     if request.method == "GET":
-        branches = db.execute("SELECT branch_name FROM branches")
-        equipments = db.execute("SELECT eq_type FROM equipment")
+        branches = db.execute("SELECT * FROM branches")
+        equipments = db.execute("SELECT * FROM equipment")
         return render_template("quote.html", equipments=equipments,branches=branches )
 
 
     if request.method == "POST":
         if not request.form.get("primary"):
             return apology("Must provide primary muscle group eg. arms or back", 400)
-
+        if not request.form.get("equipment"):
+            return apology("Must check at least 1 equipment",420)
         if quote is None:
-            return apology("must provide inputs",400)
+            return  apology("must provide inputs",420)
+        
+        
         primary = request.form.get("primary")
         secondary = request.form.get("secondary")
         equipment = request.form.get("equipment")
-        equipments = db.execute("SELECT * FROM equipment")
+        len_eq = len(equipment)
+        
+        
+        
+        #eq1 = db.execute("SELECT * FROM equipment WHERE eq_id = ?",equipment[0] ## eq1[0]["eq_id"])
+        exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5",primary,secondary,equipment[0])
+        
         
         
        
@@ -66,7 +75,7 @@ def quote():
         
         
         
-        return render_template("quoted.html",)
+        return render_template("quoted.html", exercises = exercises, len_eq=len_eq)
 
 
 

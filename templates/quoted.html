@@ -2,8 +2,21 @@
 
 {% block main %}
     <p>
-
-        A share of {{ quoted["name"] }} is {{quoted["price"] | usd}}
-    </p>
-
+        <table>
+            {% for exercise in exercises %}
+            <tr>
+            
+            <td>
+                {{ exercise.ex_name }}
+        
+                {% endfor %}</td>
+                <td>
+                    
+                </td>
+        </tr>
+        </table>
+        <p>{{  len_eq }}</p>
+        
+        
+        </p>
 {% endblock %}
