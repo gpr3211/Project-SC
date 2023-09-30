@@ -61,21 +61,11 @@ def quote():
         equipment = request.form.get("equipment")
         len_eq = len(equipment)
         
+        comments = db.execute("SELECT * from comments WHERE ex_id IN (SELECT ex_id FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) ) ",primary,secondary,equipment[0])
         
         
-        #eq1 = db.execute("SELECT * FROM equipment WHERE eq_id = ?",equipment[0] ## eq1[0]["eq_id"])
         exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5",primary,secondary,equipment[0])
-        
-        
-        
-       
-        
-        
-        
-        
-        
-        
-        return render_template("quoted.html", exercises = exercises, len_eq=len_eq)
+        return render_template("quoted.html", exercises = exercises, comments=comments)
 
 
 
@@ -83,18 +73,55 @@ def quote():
 
 
 
-@app.route("/buy", methods=["GET", "POST"])
+@app.route("/admin", methods=["GET", "POST"])
 @login_required
-def buy():
+def admin():
     if request.method == "GET":
-        return render_template("buy.html")
+        branches = db.execute("SELECT * FROM branches")
+        equipments = db.execute("SELECT * FROM equipment")
+        exercises = db.execute("SELECT * FROM exercises")
+        return render_template("admin.html", equipments=equipments,branches=branches,exercises = exercises )
+
+
     if request.method == "POST":
-        if not request.form.get("symbol"):
-         return apology("must provide stock symbols", 400)
-        if not request.form.get("shares"):
-            return apology("must provide amount to be purchased", 400)
+        if not request.form.get("primary"):
+            return apology("Must provide primary muscle group eg. arms or back", 400)
+        if not request.form.get("secondary"):
+            return apology("provide comment",420)
+        if quote is None:
+            return  apology("must provide inputs",420)
+        
+        
+        primary = request.form.get("primary")
+        secondary = request.form.get("secondary")
+        
+        db.execute("INSERT INTO comments (ex_id,comment) VALUES (?,?)",primary,secondary)
+        branches = db.execute("SELECT * FROM branches")
+        equipments = db.execute("SELECT * FROM equipment")
+        exercises = db.execute("SELECT * FROM exercises")
+        
+        
+        
+        ##Quote page  exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5",primary,secondary,equipment[0])
+
+        
+        
+        
+        
        
-        return redirect("/")
+        
+        
+        
+        
+        
+        
+        return render_template("admin.html",equipments=equipments,branches=branches,exercises = exercises )
+
+
+
+
+
+
 
 @app.route("/history")
 @login_required

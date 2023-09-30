@@ -8,14 +8,24 @@
             
             <td>
                 {{ exercise.ex_name }}
-        
-                {% endfor %}</td>
-                <td>
+             </td>
+                       
+             <tr>
                     
-                </td>
+                {% for comment in comments %}
+                    {% for elem in comment %}
+                    {{ elem }}
+                    {% endfor %}
+                {% endfor %}
+
+                </tr>
+        
+            </td>
+                {% endfor %}
+               
         </tr>
         </table>
-        <p>{{  len_eq }}</p>
+        <p></p>
         
         
         </p>

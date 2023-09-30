@@ -1,0 +1,53 @@
+YO {% extends "layout.html" %}
+
+{% block main %}
+
+    <h1>Add Comment</h1>
+    <br>
+    <form action="/admin" method="post">
+        
+
+    <select name="primary" id="primary" >
+    {% for exercise in exercises %} 
+            <option value="{{ exercise.ex_id}}">{{ exercise.ex_name }}</option>
+     {% endfor %}
+        </select>
+    <input type="text" name="secondary" placeholder ="Insert comment">
+    <br>
+</div>
+<button type="submit">Submit</button>
+        
+
+</form>
+
+
+    <h1>Add exercise</h1><br>
+    <form action="/admin" method="post">
+        
+        
+        <input type="text" name="comment" autofocus placeholder="Initial comment(optional)">
+        <select name="branch" >
+            {% for branch in branches %} 
+                    <option value="{{ branch.branch_id }}">{{ branch.branch_name }}</option>
+             {% endfor %}
+            </select>
+            <div>    
+        {% for equipment in equipments %}
+        <input type="radio" id="{{  equipment.eq_id  }}" name="equip" value="{{  equipment.eq_id  }}" >
+        <label for="{{  equipment.eq_id  }}">{{  equipment.eq_type  }} </label>
+        {% endfor %}
+            </div>
+     
+
+
+
+    </form>
+    <button type="submit">Submit</button>
+        
+
+
+
+{% endblock %}
+
+
+
