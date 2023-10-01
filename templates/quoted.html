@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block main %}
-    <p>
+    
         <table>
             {% for exercise in exercises %}
             <tr>
@@ -9,24 +9,22 @@
             <td>
                 {{ exercise.ex_name }}
              </td>
-                       
-             <tr>
-                    
-                {% for comment in comments %}
-                    {% for elem in comment %}
-                    {{ elem }}
-                    {% endfor %}
-                {% endfor %}
-
-                </tr>
-        
-            </td>
+             <td>
+                <ul>
+                    <li>{{ exercise.comment}}</li>
+                </ul>
+             </td>
+             <td>
+                <div class="img-div" style="background-image: url('{{ exercise.img }}');">
+                </div>
+             </td>
                 {% endfor %}
                
         </tr>
         </table>
-        <p></p>
+        
+       
         
         
-        </p>
+        
 {% endblock %}

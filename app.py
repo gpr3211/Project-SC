@@ -61,10 +61,13 @@ def quote():
         equipment = request.form.get("equipment")
         len_eq = len(equipment)
         
-        comments = db.execute("SELECT * from comments WHERE ex_id IN (SELECT ex_id FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) ) ",primary,secondary,equipment[0])
+        comments = db.execute("SELECT * from comments WHERE ex_id IN (SELECT ex_id FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5) ",primary,secondary,equipment[0])
         
         
-        exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5",primary,secondary,equipment[0])
+       ## exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])
+        exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])
+        
+        
         return render_template("quoted.html", exercises = exercises, comments=comments)
 
 
@@ -84,25 +87,29 @@ def admin():
 
 
     if request.method == "POST":
-        if not request.form.get("primary"):
-            return apology("Must provide primary muscle group eg. arms or back", 400)
-        if not request.form.get("secondary"):
-            return apology("provide comment",420)
-        if quote is None:
-            return  apology("must provide inputs",420)
-        
-        
+       
         primary = request.form.get("primary")
         secondary = request.form.get("secondary")
+        branch = request.form.get("branch")
+        equip = request.form.get("equip")
+        comment = request.form.get("comment")
+        name = request.form.get("name")
+        image = request.form.get("image")
         
-        db.execute("INSERT INTO comments (ex_id,comment) VALUES (?,?)",primary,secondary)
+        #add coment to exercise
+        db.execute("UPDATE exercises SET comment =  ? WHERE ex_id = ?",secondary,primary)
         branches = db.execute("SELECT * FROM branches")
         equipments = db.execute("SELECT * FROM equipment")
         exercises = db.execute("SELECT * FROM exercises")
+
+        db.execute("INSERT INTO exercises (ex_name,ex_branch,ex_equip,ex_img,comment) VALUES (?,?,?,?,?)",name,branch,equip,image,comment)
+
         
         
         
-        ##Quote page  exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5",primary,secondary,equipment[0])
+        
+        
+        
 
         
         

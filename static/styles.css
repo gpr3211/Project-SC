@@ -28,5 +28,7 @@ table {
     border-collapse: collapse;
     width: 100%;
   }
-
+tr {
+    text-align: center;
+}
 tr:hover {background-color: #D6EEEE;}
