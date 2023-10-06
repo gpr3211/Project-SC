@@ -2,7 +2,7 @@
 
 {% block main %}
     
-        <table>
+   <table>
             {% for exercise in exercises %}
             <tr>
             
@@ -10,17 +10,17 @@
                 {{ exercise.ex_name }}
              </td>
              <td>
-                <ul>
+            <ul>
                     <li>{{ exercise.comment}}</li>
                 </ul>
-             </td>
+               
+               </td>
              <td>
-                <div class="img-div" style="background-image: url('{{ exercise.img }}');">
-                </div>
+               <img src="{{ url_for('static', filename= 'images/' + exercise.ex_img)}} " alt ="{{exercise.ex_name}}" width = 500>
              </td>
                 {% endfor %}
                
-        </tr>
+            </tr>
         </table>
         
        
