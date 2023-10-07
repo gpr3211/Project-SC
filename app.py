@@ -61,12 +61,19 @@ def quote():
         equipment = request.form.get("equipment")
         len_eq = len(equipment)
         
-        comments = db.execute("SELECT * from comments WHERE ex_id IN (SELECT ex_id FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5) ",primary,secondary,equipment[0])
+        comments = db.execute("SELECT * from comments WHERE ex_id IN (SELECT ex_id FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)) ",primary,secondary,equipment[0])
         
         
        ## exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])
         exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])
-        
+        #one = exercises[0]["ex_id"]
+        #    two = exercises[1]["ex_id"]
+        #    three = exercises[2]["ex_id"]
+        #    four = exercises[3]["ex_id"]
+        #    five = exercises[4]["ex_id"]
+            
+        #db.execute("INSERT INTO workouts (w_one,w_two,w_three,w_four,w_five,int_id) values (?,?,?,?,?,1)",one,two,three,four,five)
+
         
         return render_template("quoted.html", exercises = exercises, comments=comments)
 
@@ -95,30 +102,25 @@ def admin():
         comment = request.form.get("comment")
         name = request.form.get("name")
         image = request.form.get("image")
+        remove = request.form.get("remove")
         
         #add coment to exercise
         db.execute("UPDATE exercises SET comment =  ? WHERE ex_id = ?",secondary,primary)
         branches = db.execute("SELECT * FROM branches")
         equipments = db.execute("SELECT * FROM equipment")
         exercises = db.execute("SELECT * FROM exercises")
+        if name:
 
-        db.execute("INSERT INTO exercises (ex_name,ex_branch,ex_equip,ex_img,comment) VALUES (?,?,?,?,?)",name,branch,equip,image,comment)
+            db.execute("INSERT INTO exercises (ex_name,ex_branch,ex_equip,ex_img,comment) VALUES (?,?,?,?,?)",name,branch,equip,image,comment)
+    
 
-        
-        
-        
-        
-        
-        
+    
+        if remove:
 
-        
-        
-        
-        
-       
-        
-        
-        
+            db.execute ("DELETE FROM exercises where ex_id = ?",remove)
+
+
+
         
         
         

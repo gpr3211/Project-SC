@@ -17,7 +17,6 @@ YO {% extends "layout.html" %}
 </div>
 <button type="submit">Submit</button>
         
-
 </form>
 
 
@@ -31,18 +30,33 @@ YO {% extends "layout.html" %}
                     <option value="{{ branch.branch_id }}">{{ branch.branch_name }}</option>
              {% endfor %}
             </select>
-            <input type="number" name="image" autofocus placeholder="image ">
+            <input type="text" name="image" autofocus placeholder="image ">
             <div>    
         {% for equipment in equipments %}
         <input type="radio" id="{{  equipment.eq_id  }}" name="equip" value="{{  equipment.eq_id  }}" >
         <label for="{{  equipment.eq_id  }}">{{  equipment.eq_type  }} </label>
         {% endfor %}
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Submit</button> <br><br>
+        
 
 
 
     </form>
+    
+        <h2> Remove Exercise</h2>
+<form action="/admin" method="post">
+    <select name="remove" id="remove" >
+        {% for exercise in exercises %} 
+                <option value="{{ exercise.ex_id}}">{{ exercise.ex_name }}  ID={{ exercise.ex_id }}</option>
+         {% endfor %}
+            </select>
+            <button type="submit">REMOVE</button><br><br>
+    
+
+
+    </form>
+
     
         
 
