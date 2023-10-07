@@ -86,11 +86,18 @@ def quote():
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
+    
+
+    
     if request.method == "GET":
-        branches = db.execute("SELECT * FROM branches")
-        equipments = db.execute("SELECT * FROM equipment")
-        exercises = db.execute("SELECT * FROM exercises")
-        return render_template("admin.html", equipments=equipments,branches=branches,exercises = exercises )
+        
+        if session["user_id"] == 1:
+            branches = db.execute("SELECT * FROM branches")
+            equipments = db.execute("SELECT * FROM equipment")
+            exercises = db.execute("SELECT * FROM exercises")
+            return render_template("admin.html", equipments=equipments,branches=branches,exercises = exercises )
+        else:
+            return apology("You must be admin to access this page",420)
 
 
     if request.method == "POST":
