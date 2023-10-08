@@ -32,11 +32,13 @@ def after_request(response):
     return response
 
 
-@app.route("/")
+@app.route("/",methods=["GET","POST"])
 @login_required
 def index():
-  
-    return render_template("index.html")
+    
+    if request.method == "GET":
+        workouts = db.execute("SELECT ex_name FROM workouts,exercises WHERE workouts.user_id = ? AND workouts.w_one = exercises.ex_id",session["user_id"])
+        return render_template("index.html",workouts = workouts)
 
 @app.route("/generate", methods=["GET", "POST"])
 @login_required
@@ -139,11 +141,7 @@ def admin():
 @login_required
 def history():
    
-    return render_template("history.html", )
-
-
-
-
+    return render_template("history.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
