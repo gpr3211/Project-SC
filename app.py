@@ -38,13 +38,13 @@ def index():
   
     return render_template("index.html")
 
-@app.route("/quote", methods=["GET", "POST"])
+@app.route("/generate", methods=["GET", "POST"])
 @login_required
-def quote():
+def generate():
     if request.method == "GET":
         branches = db.execute("SELECT * FROM branches")
         equipments = db.execute("SELECT * FROM equipment")
-        return render_template("quote.html", equipments=equipments,branches=branches )
+        return render_template("generate.html", equipments=equipments,branches=branches )
 
 
     if request.method == "POST":
@@ -52,7 +52,7 @@ def quote():
             return apology("Must provide primary muscle group eg. arms or back", 400)
         if not request.form.get("equipment"):
             return apology("Must check at least 1 equipment",420)
-        if quote is None:
+        if generate is None:
             return  apology("must provide inputs",420)
         
         
@@ -65,14 +65,10 @@ def quote():
         
         
        ## exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])
-        exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])
-        #one = exercises[0]["ex_id"]
-        #    two = exercises[1]["ex_id"]
-        #    three = exercises[2]["ex_id"]
-        #    four = exercises[3]["ex_id"]
-        #    five = exercises[4]["ex_id"]
-            
-        #db.execute("INSERT INTO workouts (w_one,w_two,w_three,w_four,w_five,int_id) values (?,?,?,?,?,1)",one,two,three,four,five)
+        
+        exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5",primary,secondary,equipment[0])
+        one = exercises[0]["ex_id"]
+        db.execute("INSERT INTO workouts (w_one,user_id) values (?,?)",one,session["user_id"])
 
         
         return render_template("quoted.html", exercises = exercises, comments=comments)
