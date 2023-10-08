@@ -37,3 +37,34 @@ li {
 
     text-align: center;
 }
+main {
+
+    background-color: azure;
+
+}
+
+input[type=text] {
+    width: 15%;
+    padding: 12px 28px;
+    margin: 8px 0;
+    box-sizing: border-box;
+  }
+
+  select {
+    width: 10%;
+    padding: 16px 16px;
+    border: 2px solid rgb(228, 219, 219);
+    border-radius: 4px;
+    background-color: #bfc0c0;
+    
+  }
+input[type=radio]{
+    width: 1%;
+    font-size: 20px;
+    padding: 16px 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+    background-color: #c4d9db
+
+}
+

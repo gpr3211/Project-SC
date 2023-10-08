@@ -31,7 +31,6 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-
 @app.route("/",methods=["GET","POST"])
 @login_required
 def index():
@@ -69,13 +68,12 @@ def generate():
        ## exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])
         
         exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5",primary,secondary,equipment[0])
-        one = exercises[0]["ex_id"]
-        db.execute("INSERT INTO workouts (w_one,user_id) values (?,?)",one,session["user_id"])
+        #one = exercises[0]["ex_id"]
+        #db.execute("INSERT INTO workouts (w_one,user_id) values (?,?)",one,session["user_id"])
+
 
         
         return render_template("quoted.html", exercises = exercises, comments=comments)
-
-
 
 
 

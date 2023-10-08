@@ -6,7 +6,7 @@
     <br>
     <form action="/generate" method="post">
         
-
+    
     <select name="primary" >
     {% for branch in branches %} 
             <option value="{{ branch.branch_id }}">{{ branch.branch_name }}</option>
@@ -19,7 +19,8 @@
         </select>
     
 <br>
-    <div>Equpment 1:
+
+    <div>Choose Equpment:
     {% for equipment in equipments %}
     <input type="radio" id="{{  equipment.eq_id  }}" name="equipment" value="{{  equipment.eq_id  }}" >
     <label for="{{  equipment.eq_id  }}">{{  equipment.eq_type  }} </label>

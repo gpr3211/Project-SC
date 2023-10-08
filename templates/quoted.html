@@ -8,13 +8,12 @@
             
             <td>
                 {{ exercise.ex_name }}
-             </td>
+            </td>
              <td>
             <ul>
-                    <li>{{ exercise.comment}}</li>
-                </ul>
-               
-               </td>
+               <li>{{ exercise.comment}}</li>
+            </ul>             
+            </td>
              <td>
                <img src="{{ url_for('static', filename= 'images/' + exercise.ex_img)}} " alt ="{{exercise.ex_name}}" width = 500>
              </td>
