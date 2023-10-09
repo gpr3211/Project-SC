@@ -47,7 +47,6 @@ def generate():
         equipments = db.execute("SELECT * FROM equipment")
         return render_template("generate.html", equipments=equipments,branches=branches )
 
-
     if request.method == "POST":
         if not request.form.get("primary"):
             return apology("Must provide primary muscle group eg. arms or back", 400)
@@ -55,28 +54,38 @@ def generate():
             return apology("Must check at least 1 equipment",420)
         if generate is None:
             return  apology("must provide inputs",420)
-        
-        
+               
         primary = request.form.get("primary")
         secondary = request.form.get("secondary")
         equipment = request.form.get("equipment")
-        len_eq = len(equipment)
-        
+        len_eq = len(equipment)       
         comments = db.execute("SELECT * from comments WHERE ex IN (SELECT ex_id FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)) ",primary,secondary,equipment[0])
         
-        
-       ## exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])
-        
+       ## exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])     
         exercises = db.execute("SELECT DISTINCT ex_name,ex_id,ex_img,comment FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 7",primary,secondary,equipment[0])
         #one = exercises[0]["ex_id"]
         #db.execute("INSERT INTO workouts (w_one,user_id) values (?,?)",one,session["user_id"])
-
-
-        
+    
         return render_template("quoted.html", exercises = exercises, comments=comments)
 
 
+@app.route("/fav", methods=["GET", "POST"])
+@login_required
+def fav():
+    if request.method =="GET":
+        branches = db.execute("SELECT * FROM branches")
+        equipments = db.execute("SELECT * FROM equipment")
+        exercises = db.execute("SELECT * FROM exercises ORDER BY ex_name")
+        favorites = db.execute("SELECT ex_id from favorites where user_id = ?",session["user_id"])
 
+        return render_template("sell.html",equipments=equipments,branches=branches,exercises = exercises,favorites=favorites)
+    
+    
+    if request.method =="POST":
+        fav = request.form.get("fav")
+        db.execute("INSERT INTO favorites (user_id,ex_id) VALUES(?,?)",session["user_id"],fav)
+        return redirect("/fav")
+    
 
 
 @app.route("/admin", methods=["GET", "POST"])
@@ -241,15 +250,6 @@ def register():
 
     """Register user"""
 
-
-
-@app.route("/sell", methods=["GET", "POST"])
-@login_required
-def sell():
-   
-
-
-        return redirect("/")
 
 
 
