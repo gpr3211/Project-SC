@@ -1,31 +1,47 @@
 {% extends "layout.html" %}
 
 {% block main %}
+<h1>Powerlift Records </h1>
+<br>
+<form type="submit" action="/history" method="post">
+<input type="text" id="ohp" name="ohp" placeholder="OHP ">
+<input type="text" id="deadlift" name="deadlift" placeholder="Deadlift ">
+<input type="text" id="bench" name="bench" placeholder="Bench ">
+<input type="text" id="squat" name="squat" placeholder="Squat ">
+<input type="text" id="note" name="note" placeholder="Notes.. date etc ">
+<button type="submit">Submit</button>
+
+
+
+</form>
+
+<div>
 <table class="table">
 <thead>
             <tr>
-                <th class ="text-start">Overhead Press</th>
-                <th class ="text-start">Deadlift</th>
-                <th class ="text-end">Bench</th>
-                <th class ="text-end">Squat</th>
-                <th class ="text-end">Row</th>
+                <th >Overhead Press</th>
+                <th >Deadlift</th>
+                <th >Bench</th>
+                <th> Squat</th>
+                
+                
 
             </tr>
     </thead>
-    {% for transaction in transactions %}
+    {% for record in records %}
         <tbody>
             <tr>
-                <td class="text-start">{{ transaction.stock_id }}</td>
-                <td class="text-start">{{ transaction.shares}}</td>
-                <td class="text-end">{{ transaction.stock_price }}</td>
-                <td class="text-end">{{ transaction.type}}</td>
-                <td class="text-end">{{ transaction.time}}</td>
+               <td> {{ record.rec_ohp }}</td>
+               <td> {{ record.rec_deadlift}}</td>
+                <td> {{record.rec_bench }}</td>
+                <td> {{record.rec_squat }}</td>
+                
+                
             </tr>
        </tbody>
        {% endfor %}
 </table>
-
-
+</div>
 
 
 {% endblock %}

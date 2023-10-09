@@ -135,11 +135,22 @@ def admin():
 
 
 
-@app.route("/history")
+@app.route("/history", methods=["GET", "POST"])
 @login_required
 def history():
-   
-    return render_template("history.html")
+    records = db.execute("SELECT rec_ohp,rec_deadlift,rec_bench,rec_squat,rec_deadlift FROM records WHERE rec_user = ?",session["user_id"])
+    now = datetime.datetime.now(pytz.timezone("US/Eastern"))
+    if request.method == "GET":
+        
+        return render_template("history.html",records=records)
+    if request.method =="POST":
+        ohp = request.form.get("ohp")
+        deadlift = request.form.get("deadlift")
+        bench = request.form.get("bench")
+        squat = request.form.get("squat")
+        note = request.form.get("note")
+        db.execute("INSERT INTO records (rec_user,rec_ohp,rec_deadlift,rec_bench,rec_squat,rec_time) VALUES (?,?,?,?,?,?)",session["user_id"],ohp,deadlift,bench,squat,note)
+        return redirect("/history")
 
 
 @app.route("/login", methods=["GET", "POST"])
