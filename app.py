@@ -62,12 +62,12 @@ def generate():
         equipment = request.form.get("equipment")
         len_eq = len(equipment)
         
-        comments = db.execute("SELECT * from comments WHERE ex_id IN (SELECT ex_id FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)) ",primary,secondary,equipment[0])
+        comments = db.execute("SELECT * from comments WHERE ex IN (SELECT ex_id FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)) ",primary,secondary,equipment[0])
         
         
        ## exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?)",primary,secondary,equipment[0])
         
-        exercises = db.execute("SELECT * FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 5",primary,secondary,equipment[0])
+        exercises = db.execute("SELECT DISTINCT ex_name,ex_id,ex_img,comment FROM exercises WHERE (ex_branch = ? OR ex_branch = ?) AND (ex_equip = ?) LIMIT 7",primary,secondary,equipment[0])
         #one = exercises[0]["ex_id"]
         #db.execute("INSERT INTO workouts (w_one,user_id) values (?,?)",one,session["user_id"])
 

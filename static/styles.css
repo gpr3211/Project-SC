@@ -52,7 +52,7 @@ input[type=text] {
 
   select {
     width: 10%;
-    padding: 16px 16px;
+    height: 25px;
     border: 2px solid rgb(228, 219, 219);
     border-radius: 4px;
     background-color: #bfc0c0;
@@ -67,4 +67,8 @@ input[type=radio]{
     background-color: #c4d9db
 
 }
-
+.button {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50; /* Green */
+  }
