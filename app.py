@@ -77,8 +77,8 @@ def fav():
         equipments = db.execute("SELECT * FROM equipment")
         exercises = db.execute("SELECT * FROM exercises ORDER BY ex_name")
         favorites = db.execute("SELECT ex_id from favorites where user_id = ?",session["user_id"])
-
-        return render_template("sell.html",equipments=equipments,branches=branches,exercises = exercises,favorites=favorites)
+        favs = db.execute("SELECT ex_name,comment,ex_img FROM favorites JOIN exercises ON favorites.ex_id = exercises.ex_id WHERE user_id = ?",session["user_id"])
+        return render_template("sell.html",equipments=equipments,branches=branches,exercises = exercises,favorites=favorites, favs=favs)
     
     
     if request.method =="POST":
@@ -124,17 +124,9 @@ def admin():
         if name:
 
             db.execute("INSERT INTO exercises (ex_name,ex_branch,ex_equip,ex_img,comment) VALUES (?,?,?,?,?)",name,branch,equip,image,comment)
-    
-
-    
         if remove:
 
-            db.execute ("DELETE FROM exercises where ex_id = ?",remove)
-
-
-
-        
-        
+            db.execute ("DELETE FROM exercises where ex_id = ?",remove) 
         
         return render_template("admin.html",equipments=equipments,branches=branches,exercises = exercises )
 
