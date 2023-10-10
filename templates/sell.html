@@ -14,38 +14,33 @@
         </select>
         <button type="submit" >Submit</button>
  </form>
-<div>
+ <div>
     <h1>List of favorites</h1>
     <table>
         {% for fav in favs %}
         <tr>
-        
-        <td>
-            {{ fav.ex_name }}
-        </td>
-         <td>
-        <ul>
-           <li>{{ fav.comment}}</li>
-        </ul>             
-        </td>
-         <td>
-           <img src="{{ url_for('static', filename= 'images/' + fav.ex_img)}} " alt ="{{fav.ex_name}}" width = 500>
-         </td>
-         <td>
-            <form action="/fav" method="post">
-                
-                        <button type="submit">REMOVE</button><br><br>
-                
-            
-            
+            <td>
+                {{ fav.ex_name }}
+            </td>
+            <td>
+                <ul>
+                   <li>{{ fav.comment }}</li>
+                </ul>             
+            </td>
+            <td>
+               <img src="{{ url_for('static', filename= 'images/' + fav.ex_img) }}" alt="{{fav.ex_name}}" width=500>
+            </td>
+            <td>
+                <form action="/fav-remove" method="post">
+                    <!-- Hidden input to send the ID of the favorite to the server -->
+                    <input type="hidden" name="fav-id" value="{{ fav.fav_id }}">
+                    <button type="submit">Remove</button>
                 </form>
-         </td>
-            {% endfor %}
-           
+            </td>
         </tr>
+        {% endfor %}
     </table>
-    
-   
 </div>
+
 {% endblock %}
 

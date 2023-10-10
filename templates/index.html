@@ -1,11 +1,20 @@
 {% extends "layout.html" %}
-
+<body class="homepage">
 {% block main %}
-<title>Index</title>
 
+<title>Index</title>
+<style>
+    .homepage {
+        background-image: url('main.jpg'); /* Adjust the path as needed */
+        background-size: cover; /* This will cover the entire viewport */
+        background-repeat: no-repeat; /* This will prevent the image from repeating */
+        background-position: center; /* This will center the background image */
+    }
+</style>
 <h1>Welcome</h1>
 
 
-</table>
+
 
 {% endblock %}
+</body>

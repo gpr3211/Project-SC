@@ -77,7 +77,7 @@ def fav():
         equipments = db.execute("SELECT * FROM equipment")
         exercises = db.execute("SELECT * FROM exercises ORDER BY ex_name")
         favorites = db.execute("SELECT ex_id from favorites where user_id = ?",session["user_id"])
-        favs = db.execute("SELECT ex_name,comment,ex_img FROM favorites JOIN exercises ON favorites.ex_id = exercises.ex_id WHERE user_id = ?",session["user_id"])
+        favs = db.execute("SELECT fav_id,ex_name,comment,ex_img FROM favorites JOIN exercises ON favorites.ex_id = exercises.ex_id WHERE user_id = ?",session["user_id"])
         return render_template("sell.html",equipments=equipments,branches=branches,exercises = exercises,favorites=favorites, favs=favs)
     
     
@@ -85,7 +85,12 @@ def fav():
         fav = request.form.get("fav")
         db.execute("INSERT INTO favorites (user_id,ex_id) VALUES(?,?)",session["user_id"],fav)
         return redirect("/fav")
-    
+@app.route("/fav-remove", methods =["POST"])
+@login_required
+def fav_remove():
+    remove = request.form.get("fav-id")   
+    db.execute("DELETE FROM favorites WHERE fav_id = ?",remove)
+    return redirect("/fav")
 
 
 @app.route("/admin", methods=["GET", "POST"])

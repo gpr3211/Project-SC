@@ -39,7 +39,7 @@ li {
 }
 main {
 
-    background-color: azure;
+    background-image: url('main.jpg'); /* Adjust the path as needed */;
 
 }
 
