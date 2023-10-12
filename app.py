@@ -36,8 +36,9 @@ def after_request(response):
 def index():
     
     if request.method == "GET":
-        workouts = db.execute("SELECT ex_name FROM workouts,exercises WHERE workouts.user_id = ? AND workouts.w_one = exercises.ex_id",session["user_id"])
-        return render_template("index.html",workouts = workouts)
+        users = db.execute("SELECT username FROM users where id = ?",session["user_id"])
+        user = users[0]["username"]
+        return render_template("index.html",user=user)
 
 @app.route("/generate", methods=["GET", "POST"])
 @login_required
