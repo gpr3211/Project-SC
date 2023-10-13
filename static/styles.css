@@ -2,6 +2,7 @@
 nav .navbar-brand
 {
     font-size: xx-large;
+    font-family:'Courier New', Courier, monospace;
 }
 
 /* Colors for brand */
@@ -11,7 +12,7 @@ nav .navbar-brand .blue
 }
 nav .navbar-brand .red
 {
-    color: #ea433b;
+    font-family:'Courier New', Courier, monospace;
 }
 nav .navbar-brand .yellow
 {
@@ -21,7 +22,10 @@ nav .navbar-brand .green
 {
     color: #2e944b;
 }
+nav .nav-link{
 
+    font-family:'Courier New', Courier, monospace;
+}
 
 table {
     font-family: arial, sans-serif;
@@ -37,11 +41,9 @@ li {
 
     text-align: center;
 }
-main {
 
-    background-image: url('main.jpg'); /* Adjust the path as needed */;
 
-}
+
 
 input[type=text] {
     width: 15%;
