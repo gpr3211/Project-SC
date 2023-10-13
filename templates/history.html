@@ -8,10 +8,7 @@
 <input type="text" id="deadlift" name="deadlift" placeholder="Deadlift ">
 <input type="text" id="bench" name="bench" placeholder="Bench ">
 <input type="text" id="squat" name="squat" placeholder="Squat ">
-
 <button type="submit">Submit</button>
-
-
 
 </form>
 
@@ -22,10 +19,7 @@
                 <th >Overhead Press</th>
                 <th >Deadlift</th>
                 <th >Bench</th>
-                <th> Squat</th>
-                
-                
-
+                <th> Squat</th>               
             </tr>
     </thead>
     {% for record in records %}
@@ -35,13 +29,10 @@
                <td> {{ record.rec_deadlift}}</td>
                 <td> {{record.rec_bench }}</td>
                 <td> {{record.rec_squat }}</td>
-                
-                
             </tr>
        </tbody>
        {% endfor %}
 </table>
 </div>
-
 
 {% endblock %}
