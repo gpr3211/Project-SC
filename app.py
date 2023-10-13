@@ -79,7 +79,7 @@ def fav():
         exercises = db.execute("SELECT * FROM exercises ORDER BY ex_name")
         favorites = db.execute("SELECT ex_id from favorites where user_id = ?",session["user_id"])
         favs = db.execute("SELECT fav_id,ex_name,comment,ex_img FROM favorites JOIN exercises ON favorites.ex_id = exercises.ex_id WHERE user_id = ?",session["user_id"])
-        return render_template("sell.html",equipments=equipments,branches=branches,exercises = exercises,favorites=favorites, favs=favs)
+        return render_template("favorites.html",equipments=equipments,branches=branches,exercises = exercises,favorites=favorites, favs=favs)
     
     
     if request.method =="POST":
@@ -106,7 +106,8 @@ def admin():
             branches = db.execute("SELECT * FROM branches")
             equipments = db.execute("SELECT * FROM equipment")
             exercises = db.execute("SELECT * FROM exercises")
-            return render_template("admin.html", equipments=equipments,branches=branches,exercises = exercises )
+            users = db.execute("SElect * from users")
+            return render_template("admin.html", equipments=equipments,branches=branches,exercises = exercises, users=users )
         else:
             return apology("You must be admin to access this page",420)
 
@@ -121,7 +122,7 @@ def admin():
         name = request.form.get("name")
         image = request.form.get("image")
         remove = request.form.get("remove")
-        
+        remove_user = request.form.get("remove_user")
         #add coment to exercise
         db.execute("UPDATE exercises SET comment =  ? WHERE ex_id = ?",secondary,primary)
         branches = db.execute("SELECT * FROM branches")
@@ -133,8 +134,10 @@ def admin():
         if remove:
 
             db.execute ("DELETE FROM exercises where ex_id = ?",remove) 
+        if remove_user:
+            db.execute("DELETE FROM users where id=?",remove_user)
         
-        return render_template("admin.html",equipments=equipments,branches=branches,exercises = exercises )
+        return redirect("/admin")
 
 
 

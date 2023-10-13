@@ -19,7 +19,6 @@ YO {% extends "layout.html" %}
         
 </form>
 
-
     <h1>Add exercise</h1><br>
     <form action="/admin" method="post">
         
@@ -39,9 +38,6 @@ YO {% extends "layout.html" %}
         </div>
         <button type="submit">Submit</button> <br><br>
         
-
-
-
     </form>
     
         <h2> Remove Exercise</h2>
@@ -56,6 +52,20 @@ YO {% extends "layout.html" %}
 
 
     </form>
+    <br>
+    <h2>Remove user</h2>
+    <br>
+    <form action="/admin" method="post">
+        <select name="remove_user" id="remove_user" >
+            {% for user in users %} 
+                    <option value="{{ user.id}}">{{ user.username }}  ID={{ user.id }}</option>
+             {% endfor %}
+                </select>
+                <button type="submit">REMOVE</button><br><br>
+        
+    
+    
+        </form>
 
     
         
