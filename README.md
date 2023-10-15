@@ -1,7 +1,16 @@
 # Project-SC
 #### Video Demo:
 #### Description: 
-Scorpio workout generator<br>
+Scorpio workout <br>
+
+<p>Project Scorpio is an exercise based website.It is built using python and flask with a local SQL database of exercises.There is some minor JS functionality for greeting users.<br> 
+</p>
+
+
+
+
+
+
 
 Lets the user generate a sample workout from a database of exercises, save favorite exercises and keep track of record lifts.<br><br>
 OVERVIEW<br>
