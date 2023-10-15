@@ -3,7 +3,7 @@
 #### Description: 
 Scorpio workout <br>
 
-<p>Project Scorpio is an exercise based website.It is built using python and flask with a local SQL database of exercises.There is some minor JS functionality for greeting users.<br> 
+<p>Project Scorpio is an exercise based website.It is built using html,python and flask with a local SQL database of exercises.There is some minor JS functionality for greeting users.The website features an Admin dashboard that allows direct queries on the database in the form of adding or removing exercises and users . Admin page is only visible and accessable by users of our choosing.
 </p>
 
 
