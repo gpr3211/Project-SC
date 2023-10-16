@@ -2,15 +2,13 @@ import os
 import pytz
 import datetime
 from cs50 import SQL
-from flask_wtf import FlaskForm
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-from wtforms import StringField, SubmitField
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
 
-from helpers import apology, login_required, lookup, usd
+from helpers import apology, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -24,7 +22,6 @@ Session(app)
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///scorpio.db")
-
 
 @app.after_request
 def after_request(response):
