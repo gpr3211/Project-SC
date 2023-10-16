@@ -43,12 +43,12 @@ Lets the user generate a sample workout from a database of exercises, save favor
     - "/generate" -> "templates/generate.html"
       - if request is GET we query branches and exercises and render generate template
       - if request is POST it means user is trying to generate a workout. First we check if imputs are all in place and if not we return an error
-        - If all inputs are correct we query our db for the comments and exercises  and return quoted.html with the generated workout displayed in a table with 3 rows. 
-
-
-
-
-
+        - If all inputs are correct we query our db for the comments and exercises  and return quoted.html with the generated workout displayed in a table with 3 rows.
+    - "/fav" -> "templates/favorites.html" Is where the user can save and remove exercsises 
+      - if request method is GET then make queries on the database to show the user a select menu that allows them to choose an exercise and add it to their favoriites
+      - if request method is POST  we insert a new entry into the favorites table in our database with the selected exercise's ID and user ID. fav ID is autoincremented in SQL.
+      - "/fav_remove" lives on the same page as favorites. It is the function that allows us to display a remove button next to each fav exercise .
+    - "admin" -> "templates/admin.html" 
 
 
 
