@@ -1,7 +1,8 @@
 # Project-SC
 #### Video Demo:
 #### Description: 
-<p>Project Scorpio is an exercise based website.It is built using html,python and flask with a local SQL database of exercises.There is some minor JS functionality for greeting users.The website features an Admin dashboard that allows direct queries on the database in the form of adding or removing exercises and users . Admin page has restricted access and is only visible to users with admin priviliges.
+<p>Project Scorpio is an exercise based website.It is built using html,python and flask with a local SQL database of exercises.There is some minor JS functionality for greeting users.The website features an Admin dashboard that allows direct queries on the database in the form of adding or removing exercises and users . Admin page has restricted access and is only visible to users with admin priviliges.<br>
+To locally run the website install python3, Flask and its required modules. Then run ''' flask --debug run''' in console while in folder.
 </p>
 
 
@@ -48,7 +49,19 @@ Lets the user generate a sample workout from a database of exercises, save favor
       - if request method is GET then make queries on the database to show the user a select menu that allows them to choose an exercise and add it to their favoriites
       - if request method is POST  we insert a new entry into the favorites table in our database with the selected exercise's ID and user ID. fav ID is autoincremented in SQL.
       - "/fav_remove" lives on the same page as favorites. It is the function that allows us to display a remove button next to each fav exercise .
-    - "admin" -> "templates/admin.html" 
+    - "/admin" -> "templates/admin.html"
+      - page is only a) visible and b) accessable by admin users.
+        - page visibility is defined in layout.html where {% if session["user_id"] == 1 %}  can be modified to give access to more users.
+        - page access is restricted by our app.py -> route -> "/admin" where " if request.method == "GET": if session["user_id"] == 1: ....  Else returns apology page with "You must be admin... " WHERE user_id is our users.id from scorpio.db
+      - Once we are in the page we can do queries on the Db from easy html style inputs
+      - IF request.method == "POST" first we name our inputs
+      - then we execute our queries depending on the input from user. REmove user or add/remove exercieses to our database.
+    -"/history" "History" tab lets the user record their highest lifts for some exercises
+That is all .
+You can contact me at pavlin.georgiev@yahoo.ca.
+Thank you ! 
+      
+                            
 
 
 
