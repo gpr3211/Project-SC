@@ -97,9 +97,7 @@ def fav_remove():
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
-    
 
-    
     if request.method == "GET":
         
         if session["user_id"] == 1:
@@ -140,11 +138,6 @@ def admin():
             db.execute("DELETE FROM users where id=?",remove_user)
         
         return redirect("/admin")
-
-
-
-
-
 
 
 @app.route("/history", methods=["GET", "POST"])
@@ -212,11 +205,6 @@ def logout():
     return redirect("/")
 
 
-
-
-
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     #since we are registering a new user, make sure we log out existing ones
@@ -239,12 +227,6 @@ def register():
         db.execute("INSERT INTO users(username,hash_pass) VALUES (?,?)", name, hashed_password)
 
         return redirect("/")
-
-
-
-
-
-
 
 
     #if GET etc redirecting to reg  page from menu
